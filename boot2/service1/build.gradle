@@ -1,0 +1,23 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.5.RELEASE")
+    }
+}
+plugins {
+    id "io.spring.dependency-management" version '1.0.6.RELEASE'
+}
+
+apply plugin: 'org.springframework.boot'
+
+jar {
+    baseName = 'service1'
+    version = '1.0'
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter',
+            project(':somelib')
+}
