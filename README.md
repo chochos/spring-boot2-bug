@@ -15,4 +15,7 @@ the library, and another service which uses the library and the first service. T
 version runs just fine (just do `gradle bootRun` on  `service2`, but the `boot2` version
 won't compile, complaining that it can't find a class that's in `service1`.
 
+I'm using Gradle 4.7, due to a problem we're having with Lombok and any version of
+Gradle above 4.7.
+
 I'm publishing this in the hopes that someone can help me figure this out.
