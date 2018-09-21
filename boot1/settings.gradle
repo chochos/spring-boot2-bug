@@ -1,0 +1,3 @@
+include 'somelib'
+include 'service1'
+include 'service2'

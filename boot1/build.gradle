@@ -1,0 +1,13 @@
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+    apply plugin:'java'
+    defaultTasks 'build'
+
+    sourceCompatibility = 8
+    targetCompatibility = 8
+}
