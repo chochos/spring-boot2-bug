@@ -11,13 +11,30 @@ plugins {
 }
 
 apply plugin: 'org.springframework.boot'
-
-jar {
-    baseName = 'service2'
-    version = '1.0'
-}
+version = '1.0'
 
 dependencies {
     compile project(':somelib'),
             project(':service1')
+            
+}
+
+//We need to tweak the compile dependencies of other Spring Boot services
+
+afterEvaluate {
+    configurations.compile.dependencies.each { dep ->
+    //Go through all dependencies, looking for project dependencies
+    if (dep instanceof ProjectDependency) {
+        //Add a closure for after evaluation of these projects
+        def proj = dep.dependencyProject
+            //We're only interested in Spring Boot projects (which have the plugin)
+            if (proj.plugins.findPlugin('org.springframework.boot')) {
+                println "Tweaking dep $proj.name"
+                //Add the classes dir from the project as a dependency, so they're available for this service
+                proj.dependencies.add('compile', files(proj.sourceSets.main.output.classesDir))
+                //And remove the service jar from our jar to avoid unnecessary bloat
+                tasks['bootJar'].exclude { it.file in proj.tasks['bootJar'].outputs.files.files }
+            }
+        }
+    }
 }
